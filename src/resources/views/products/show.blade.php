@@ -2,12 +2,16 @@
 @section('content')
     <div class="container">
         <h1>Edit Product: {{ $product->name }}</h1>
-
-        <!-- 編集用フォーム -->
-        <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data" class="mt-3">
+        <!-- 削除用フォーム -->
+        <form action="{{ route('products.destroy', $product->id) }}" method="POST" class="mt-3">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-danger" onclick="return confirm('本当に削除しますか？');">この商品を削除する</button>
+        </form>
+        <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data"
+            class="mt-3">
             @csrf
             @method('PUT')
-
             <div class="row">
                 <!-- 左側の画像表示 -->
                 <div class="col-md-6">
@@ -27,8 +31,6 @@
                             style="max-width: 300px; display: none;">
                     </div>
                 </div>
-
-                <!-- 右側のフォーム項目 -->
                 <div class="col-md-6 d-flex flex-column justify-content-between">
                     <div class="form-group">
                         <label for="name">商品名:</label>
@@ -38,7 +40,6 @@
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
-
                     <div class="form-group">
                         <label for="price">値段:</label>
                         <input type="number" class="form-control" id="price" name="price"
@@ -47,9 +48,8 @@
                             <span class="text-danger">{{ $message }}</span>
                         @enderror
                     </div>
-
                     <div class="form-group">
-                        <label for="seasons">Seasons:</label><br>
+                        <label for="seasons">季節:</label><br>
                         @foreach ($seasons as $season)
                             <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="checkbox" id="season-{{ $season->id }}"
@@ -65,35 +65,26 @@
                     </div>
                 </div>
             </div>
-
             <div class="form-group">
-                <label for="image">Image:</label>
+                <label for="image">商品画像:</label>
                 <input type="file" class="form-control-file" id="image" name="image"
                     onchange="previewImage(event)">
                 @error('image')
                     <span class="text-danger">{{ $message }}</span>
                 @enderror
             </div>
-
             <div class="form-group">
-                <label for="description">Description:</label>
+                <label for="description">商品説明:</label>
                 <textarea class="form-control" id="description" name="description" rows="5">{{ $product->description }}</textarea>
                 @error('description')
                     <span class="text-danger">{{ $message }}</span>
                 @enderror
             </div>
-
-            <div class="d-flex justify-content-between mt-3">
-                <button type="submit" class="btn btn-primary">Save Changes</button>
-                <a href="{{ route('products.index') }}" class="btn btn-secondary">Cancel</a>
+            <div class="d-flex justify-content-center align-items-center mt-3">
+                <a href="{{ route('products.index') }}" class="btn btn-secondary btn-lg mr-3"
+                    style="background-color: lightgray;">戻る</a>
+                <button type="submit" class="btn btn-primary btn-lg" style="background-color: orange;">変更を保存</button>
             </div>
-        </form>
-
-        <!-- 削除用フォーム -->
-        <form action="{{ route('products.destroy', $product->id) }}" method="POST" class="mt-3">
-            @csrf
-            @method('DELETE')
-            <button type="submit" class="btn btn-danger" onclick="return confirm('本当に削除しますか？');">Delete</button>
         </form>
     </div>
 

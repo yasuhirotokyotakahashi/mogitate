@@ -24,9 +24,9 @@ class StoreProductRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:255',
+            'name' => 'required',
             'price' => 'required|numeric|between:0,10000',
-            'description' => 'required|string|max:120',
+            'description' => 'required|max:120',
             'seasons' => 'required|array',
             'seasons.*' => 'exists:seasons,id',
             'image' => 'required|image|mimes:jpeg,png|max:2048',
@@ -37,8 +37,6 @@ class StoreProductRequest extends FormRequest
     {
         return [
             'name.required' => '商品名を入力してください',
-            'name.string' => '商品名は文字列である必要があります。',
-            'name.max' => '商品名は最大255文字までです。',
 
             'price.required' => '値段を入力してください',
             'price.numeric' => '数値で入力してください',
@@ -48,8 +46,6 @@ class StoreProductRequest extends FormRequest
             'description.max' => '120文字以内で入力してください',
 
             'seasons.required' => '季節を選択してください',
-            'seasons.array' => '季節の選択は配列形式でなければなりません。',
-            'seasons.*.exists' => '選択した季節は存在しません。',
 
             'image.required' => '商品画像を登録してください',
             'image.image' => 'アップロードされたファイルは画像でなければなりません。',

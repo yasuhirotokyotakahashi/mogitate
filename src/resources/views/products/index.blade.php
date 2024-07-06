@@ -2,15 +2,22 @@
 @section('content')
     <div class="container my-5 pt-5">
         <div class="header-row">
-            <h1 class="mb-4">商品一覧</h1>
-            <a href="{{ route('products.create') }}" class="btn btn-primary mb-3">+商品を追加</a>
+            @if (isset($keyword))
+                <div class="alert alert-info">
+                    "{{ $keyword }}"の商品一覧
+                </div>
+            @endif
+            @if (!isset($keyword))
+                <h1 class="mb-4">商品一覧</h1>
+            @endif
+            <a href="{{ route('products.create') }}" class="btn btn-primary mb-3"
+                style="background-color: orange; color: black;">+商品を追加</a>
         </div>
 
         <div class="row">
             <!-- 上段左側の検索フォームとソートオプション -->
             <div class="col-md-3">
                 <div class="search-sort-block mb-4">
-                    <h5>商品一覧</h5>
                     <form action="{{ route('products.search') }}" method="POST">
                         @csrf
                         <div class="form-group">
@@ -18,7 +25,8 @@
                             <input class="form-control" type="text" id="keyword" name="keyword" placeholder="商品名で検索"
                                 value="{{ $keyword ?? '' }}">
                         </div>
-                        <button type="submit" class="btn btn-outline-primary w-100">検索</button>
+                        <button type="submit" class="btn btn-outline-primary w-100"
+                            style="background-color: orange; color: black;">検索</button>
                         <div class="form-group mt-3">
                             <label for="sort-options">価格順で表示</label>
                             <div class="d-flex align-items-center">
