@@ -1,7 +1,7 @@
 # Mogitate（モギタテ）
 
 ## アプリケーションURL
-- 開発環境:http://localhost/
+- 開発環境:http://localhost/products
 
 
 ## 機能一覧
@@ -81,4 +81,5 @@ php artisan db:seed
 ```
 
 ##　無事localhostでアクセスできると思います。
+php artisan コマンドでエラーが出る際にはdockerを再起動することで修正できるかと思われます。
 必要に応じて、php artisan storage:linkなどもご使用ください。
