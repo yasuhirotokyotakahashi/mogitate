@@ -1,28 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Product</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-
-<body>
-
-
+@extends('layouts.app')
+@section('content')
     <div class="container">
         <h1>商品を作成</h1>
-
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
 
         <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
@@ -30,16 +9,25 @@
             <div class="form-group">
                 <label for="name">商品名</label>
                 <input type="text" class="form-control" id="name" name="name" value="" required>
+                @error('name')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
 
             <div class="form-group">
                 <label for="price">価格</label>
                 <input type="text" class="form-control" id="price" name="price" value="" required>
+                @error('price')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
 
             <div class="form-group">
                 <label for="description">説明</label>
                 <textarea class="form-control" id="description" name="description"></textarea>
+                @error('description')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
 
             <div class="form-group">
@@ -51,14 +39,21 @@
                         <label class="form-check-label" for="season_{{ $season->id }}">{{ $season->name }}</label>
                     </div>
                 @endforeach
+                @error('seasons')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
 
             <div class="form-group">
                 <label for="image">画像</label>
                 <input type="file" class="form-control-file" id="image" name="image">
+                @error('image')
+                    <span class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
 
             <button type="submit" class="btn btn-primary">保存</button>
         </form>
     </div>
-</body>
+    </body>
+@endsection

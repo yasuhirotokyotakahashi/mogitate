@@ -31,7 +31,6 @@ class ProductSeasonSeeder extends Seeder
             ['product_id' => 9, 'season_id' => 2], // バナナ - 夏
             ['product_id' => 10, 'season_id' => 1], // メロン - 春
             ['product_id' => 10, 'season_id' => 2], // メロン - 夏
-            // 必要に応じてさらにデータを追加
         ];
 
         foreach ($productSeasonData as $data) {

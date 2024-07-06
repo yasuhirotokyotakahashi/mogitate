@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreProductRequest extends FormRequest
+class UpdateProductRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,7 +29,7 @@ class StoreProductRequest extends FormRequest
             'description' => 'required|string|max:120',
             'seasons' => 'required|array',
             'seasons.*' => 'exists:seasons,id',
-            'image' => 'required|image|mimes:jpeg,png|max:2048',
+            'image' => 'image|mimes:jpeg,png|max:2048',
         ];
     }
 
@@ -51,7 +51,6 @@ class StoreProductRequest extends FormRequest
             'seasons.array' => '季節の選択は配列形式でなければなりません。',
             'seasons.*.exists' => '選択した季節は存在しません。',
 
-            'image.required' => '商品画像を登録してください',
             'image.image' => 'アップロードされたファイルは画像でなければなりません。',
             'image.mimes' => '「.png」または「.jpeg」形式でアップロードしてください',
             'image.max' => '画像のサイズは2MB以内でなければなりません。',

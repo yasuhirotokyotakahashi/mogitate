@@ -1,63 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product List</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-
-<body>
-    <!-- ナビゲーションバー -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-        <a class="navbar-brand" href="http://localhost/products">Mogitate</a>
-        <div>
-            <a href="{{ route('products.create') }}" class="btn btn-primary">Add New Product</a>
-        </div>
-    </nav>
-
+@extends('layouts.app')
+@section('content')
     <div class="container my-5 pt-5">
-        <h1 class="text-center mb-4">Product List</h1>
+        <div class="header-row">
+            <h1 class="mb-4">商品一覧</h1>
+            <a href="{{ route('products.create') }}" class="btn btn-primary mb-3">+商品を追加</a>
+        </div>
 
         <div class="row">
-            <!-- 左側の検索フォームとソートオプション -->
+            <!-- 上段左側の検索フォームとソートオプション -->
             <div class="col-md-3">
-                <div class="mb-4">
-                    <h5>Search & Sort</h5>
+                <div class="search-sort-block mb-4">
+                    <h5>商品一覧</h5>
                     <form action="{{ route('products.search') }}" method="POST">
                         @csrf
                         <div class="form-group">
-                            <label for="keyword">Search by name</label>
-                            <input class="form-control" type="text" id="keyword" name="keyword"
-                                placeholder="Search by name" value="{{ $keyword ?? '' }}">
+                            <label for="keyword"></label>
+                            <input class="form-control" type="text" id="keyword" name="keyword" placeholder="商品名で検索"
+                                value="{{ $keyword ?? '' }}">
                         </div>
-                        <button type="submit" class="btn btn-outline-primary w-100">Search</button>
+                        <button type="submit" class="btn btn-outline-primary w-100">検索</button>
                         <div class="form-group mt-3">
-                            <label for="sort-options">Sort By</label>
+                            <label for="sort-options">価格順で表示</label>
                             <div class="d-flex align-items-center">
                                 <select class="form-control" id="sort-options" name="sort" style="flex: 1;">
-                                    <option value="default" {{ $sort === 'default' ? 'selected' : '' }}>Default</option>
-                                    <option value="price_asc" {{ $sort === 'price_asc' ? 'selected' : '' }}>Price: Low
-                                        to
-                                        High</option>
-                                    <option value="price_desc" {{ $sort === 'price_desc' ? 'selected' : '' }}>Price:
-                                        High to
-                                        Low</option>
+                                    <option value="default" {{ $sort === 'default' ? 'selected' : '' }}>価格で並べ替え</option>
+                                    <option value="price_asc" {{ $sort === 'price_asc' ? 'selected' : '' }}>安い順に表示</option>
+                                    <option value="price_desc" {{ $sort === 'price_desc' ? 'selected' : '' }}>高い順に表示
+                                    </option>
                                 </select>
-
                             </div>
                         </div>
                     </form>
                     <div class="alert alert-info d-flex align-items-center justify-content-between">
                         <div>
-                            Sorted by:
                             @if ($sort === 'price_asc')
-                                Price: Low to High
+                                安い順に表示
                             @elseif ($sort === 'price_desc')
-                                Price: High to Low
+                                高い順に表示
                             @else
-                                Default
+                                価格で並べ替え
                             @endif
                         </div>
                         <a href="{{ route('products.index') }}" class="btn btn-outline-danger reset-btn">×</a>
@@ -65,18 +46,28 @@
                 </div>
             </div>
 
-            <!-- 右側の商品一覧 -->
+            <!-- 上段右側の商品一覧 -->
             <div class="col-md-9">
-                <div class="row">
+                <div class="row g-2">
                     @foreach ($products as $product)
                         <div class="col-md-4 mb-4">
                             <a href="{{ route('products.show', $product->id) }}" class="text-decoration-none text-dark">
                                 <div class="card h-100">
-                                    <div class="card-img-top">
-                                        <img src="{{ asset('storage/' . $product->image_path) }}"
-                                            alt="{{ $product->name }}" class="img-fluid">
+                                    <div class="card-img-top" style="height: 200px; overflow: hidden;">
+
+
+                                        @if (Storage::disk('public')->exists($product->image))
+                                            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}"
+                                                "class="img-fluid">
+                                        @elseif (file_exists(public_path($product->image)))
+                                            <img src="{{ asset($product->image) }}" alt="{{ $product->name }}"
+                                                "class="img-fluid">
+                                        @endif
+
+
                                     </div>
-                                    <div class="card-body d-flex justify-content-between align-items-center">
+                                    <div class="card-body d-flex justify-content-between align-items-center"
+                                        style="min-height: 100px;">
                                         <h5 class="card-title mb-0">{{ $product->name }}</h5>
                                         <p class="card-text mb-0">{{ $product->price }}円</p>
                                     </div>
@@ -85,53 +76,16 @@
                         </div>
                     @endforeach
                 </div>
-
-                <div class="d-flex justify-content-center">
-                    {{ $products->links() }} <!-- ページネーションリンクを表示 -->
-                </div>
             </div>
+        </div>
+
+        <!-- 下段右側のページネーション -->
+        <div class="d-flex justify-content-center mt-4 pagination-block">
+            {{ $products->links() }}
         </div>
     </div>
 
-    <!-- 必要なJavaScriptを追加 -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const sortSelect = document.getElementById('sort-options');
-            const resetButton = document.querySelector('.reset-btn');
-
-            // 初期表示時にリセットボタンのテキストを設定
-            updateResetButtonText();
-
-            // ソートオプションが変更されたときにリセットボタンのテキストを更新
-            sortSelect.addEventListener('change', updateResetButtonText);
-
-            function updateResetButtonText() {
-                const selectedOption = sortSelect.options[sortSelect.selectedIndex];
-                if (selectedOption.value === 'price_asc') {
-                    resetButton.innerHTML = '×';
-                    resetButton.setAttribute('title', 'Reset: Price Low to High');
-                } else if (selectedOption.value === 'price_desc') {
-                    resetButton.innerHTML = '×';
-                    resetButton.setAttribute('title', 'Reset: Price High to Low');
-                } else {
-                    resetButton.innerHTML = '×';
-                    resetButton.setAttribute('title', 'Reset');
-                }
-            }
-        });
-    </script>
-
     <style>
-        svg.w-5.h-5 {
-            /* ページネーション矢印のサイズ調整 */
-            width: 30px;
-            height: 30px;
-        }
-
         .card {
             box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
             border-radius: 10px;
@@ -200,6 +154,43 @@
             text-decoration: none;
             /* ホバリング時のテキスト装飾をなしにする */
         }
-    </style>
 
-</html>
+        /* 商品カードの高さを均一に */
+        .card h-100 {
+            height: 100%;
+        }
+
+        /* 上段左側のブロック (検索フォームとソートオプション) */
+        .search-sort-block {
+            position: sticky;
+            top: 0;
+        }
+
+        /* 下段右側のページネーションを固定 */
+        .pagination-block {
+            width: 100%;
+            position: relative;
+            bottom: 0;
+        }
+
+        /* ヘッダーロウ */
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        /* ボタンのスタイル */
+        .btn-primary {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: inline-block;
+        }
+    </style>
+@endsection

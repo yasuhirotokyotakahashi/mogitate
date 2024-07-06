@@ -1,7 +1,4 @@
-# Mogitate
-
-## 目的
-Mogitate（モギタテ）
+# Mogitate（モギタテ）
 
 ## アプリケーションURL
 - http://localhost/
@@ -24,37 +21,38 @@ Mogitate（モギタテ）
 - フレームワーク：Laravel [8.83.8]
 - PHP：[PHPバージョン: 7.4.9]
 - データベース：MySQL [8.0.26 - MySQL Community Server - GPL]
-- サーバーのOSとバージョン：[Debian GNU/Linux/10 (buster)]
 
 ## テーブル設計
 以下は、主要なデータベーステーブルとそのフィールドの概要です。
 
-**productsテーブル**
-- id (主キー)
-- name
-- price
-- image
-- image_path
-- description
-- created_at
-- updated_at
+| productsテーブル  |  |
+|------------|---------|
+| id         | PK      |
+| name       |         |
+| price      |         |
+| image_path |         |
+| description|         |
+| created_at |         |
+| updated_at |         |
 
-**seasonsテーブル**
-- id (主キー)
-- name
-- created_at
-- updated_at
+| seasonsテーブル  |  |
+|------------|---------|
+| id         | PK      |
+| name       |         |
+| created_at |         |
+| updated_at |         |
 
-**product_seasonテーブル**
-- id (主キー)
-- product_id
-- season_id
-- created_at
-- updated_at
-
+| product_seasonテーブル  |  |
+|------------|---------|
+| id         | PK      |
+| product_id | FK      |
+| season_id  | FK      |
+| created_at |         |
+| updated_at |         |
 
 ## ER図
 [ER図のイメージをここに挿入]
+![もぎたて](https://github.com/yasuhirotokyotakahashi/mogitate/assets/128282431/670a0773-8916-46ce-98e7-2bc4fbd1eff1)
 
 
 ## 環境構築
@@ -67,9 +65,9 @@ cd my-project
 ```
 my-projectの箇所はお好きなディレクトリ名で作成してください。
 ```bash
-git clone　https://github.com/yasuhirotokyotakahashi/rms.git
+git clone　https://github.com/yasuhirotokyotakahashi/mogitate.git
 sudo chmod -R 777 *
-cd rms
+cd mogitate
 ```
 ここからdockerのビルドから最後まで一気に行います。
 ```bash

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\UpdateProductRequest;
 use App\Models\Product;
 use App\Models\Season;
 use Illuminate\Http\Request;
@@ -49,7 +50,7 @@ class ProductController extends Controller
                 'images',
                 'public'
             );
-            $product->image_path = $imagePath; // 保存したファイルパスをimage_pathに設定
+            $product->image = $imagePath; // 保存したファイルパスをimage_pathに設定
         }
 
         $product->save();
@@ -79,7 +80,7 @@ class ProductController extends Controller
         return view('products.edit', compact('product', 'seasons'));
     }
 
-    public function update(StoreProductRequest $request, $review_id)
+    public function update(UpdateProductRequest $request, $review_id)
     {
         // バリデーション済みデータの取得
         $validatedData = $request->validated();
@@ -95,7 +96,7 @@ class ProductController extends Controller
                 'images',
                 'public'
             );
-            $product->image_path = $imagePath; // 保存したファイルパスをimage_pathに設定
+            $product->image = $imagePath; // 保存したファイルパスをimage_pathに設定
         }
 
         $product->save();
