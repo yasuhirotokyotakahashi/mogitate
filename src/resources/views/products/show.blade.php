@@ -4,89 +4,102 @@
 @endsection
 @section('content')
     <div class="container">
-        <h1>Edit Product: {{ $product->name }}</h1>
+        <!-- パンくずリストの追加 -->
+        <nav aria-label="breadcrumb" class="breadcrumb-nav">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ route('products.index') }}">商品一覧</a></li>
+                <li class="breadcrumb-item active" aria-current="page">>{{ $product->name }}</li>
+            </ol>
+        </nav>
+
         <!-- 削除用フォーム -->
-        <form action="{{ route('products.destroy', $product->id) }}" method="POST" class="mt-3">
+        <form action="{{ route('products.destroy', $product->id) }}" method="POST" class="form-delete">
             @csrf
             @method('DELETE')
             <button type="submit" class="btn btn-danger" onclick="return confirm('本当に削除しますか？');">この商品を削除する</button>
         </form>
+
+        <!-- 更新用フォーム -->
         <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data"
-            class="mt-3">
+            class="form-update">
             @csrf
             @method('PUT')
-            <div class="row">
+
+            <div class="form-row">
                 <!-- 左側の画像表示 -->
-                <div class="col-md-6">
-                    <div class="mt-2">
+                <div class="form-column">
+                    <div class="image-container">
                         <!-- 現在の画像 -->
                         @if ($product->image)
                             @if (Storage::disk('public')->exists($product->image))
                                 <img id="current-image" src="{{ asset('storage/' . $product->image) }}"
-                                    alt="{{ $product->name }}" style="max-width: 300px;">
+                                    alt="{{ $product->name }}" class="image-preview">
                             @elseif (file_exists(public_path($product->image)))
                                 <img id="current-image" src="{{ asset($product->image) }}" alt="{{ $product->name }}"
-                                    style="max-width: 300px;">
+                                    class="image-preview">
                             @endif
                         @endif
                         <!-- 新しい画像のプレビュー -->
-                        <img id="image-preview" src="#" alt="New Image Preview"
-                            style="max-width: 300px; display: none;">
+                        <img id="image-preview" src="#" alt="New Image Preview" class="image-preview"
+                            style="display: none;">
                     </div>
                 </div>
-                <div class="col-md-6 d-flex flex-column justify-content-between">
+
+                <!-- 右側の入力フォーム -->
+                <div class="form-column">
                     <div class="form-group">
                         <label for="name">商品名:</label>
-                        <input type="text" class="form-control" id="name" name="name"
-                            value="{{ $product->name }}">
+                        <input type="text" id="name" name="name" value="{{ $product->name }}" class="form-input">
                         @error('name')
-                            <span class="text-danger">{{ $message }}</span>
+                            <span class="error-message">{{ $message }}</span>
                         @enderror
                     </div>
+
                     <div class="form-group">
                         <label for="price">値段:</label>
-                        <input type="number" class="form-control" id="price" name="price"
-                            value="{{ $product->price }}">
+                        <input type="number" id="price" name="price" value="{{ $product->price }}"
+                            class="form-input">
                         @error('price')
-                            <span class="text-danger">{{ $message }}</span>
+                            <span class="error-message">{{ $message }}</span>
                         @enderror
                     </div>
+
                     <div class="form-group">
                         <label for="seasons">季節:</label><br>
                         @foreach ($seasons as $season)
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="checkbox" id="season-{{ $season->id }}"
-                                    name="seasons[]" value="{{ $season->id }}"
+                            <div class="form-check-inline">
+                                <input type="checkbox" id="season-{{ $season->id }}" name="seasons[]"
+                                    value="{{ $season->id }}"
                                     {{ $product->seasons->contains($season->id) ? 'checked' : '' }}>
-                                <label class="form-check-label"
-                                    for="season-{{ $season->id }}">{{ $season->name }}</label>
+                                <label for="season-{{ $season->id }}">{{ $season->name }}</label>
                             </div>
                         @endforeach
                         @error('seasons')
-                            <span class="text-danger">{{ $message }}</span>
+                            <span class="error-message">{{ $message }}</span>
                         @enderror
                     </div>
                 </div>
             </div>
+
             <div class="form-group">
                 <label for="image">商品画像:</label>
-                <input type="file" class="form-control-file" id="image" name="image"
-                    onchange="previewImage(event)">
+                <input type="file" id="image" name="image" class="form-input-file" onchange="previewImage(event)">
                 @error('image')
-                    <span class="text-danger">{{ $message }}</span>
+                    <span class="error-message">{{ $message }}</span>
                 @enderror
             </div>
+
             <div class="form-group">
                 <label for="description">商品説明:</label>
-                <textarea class="form-control" id="description" name="description" rows="5">{{ $product->description }}</textarea>
+                <textarea id="description" name="description" rows="5" class="form-textarea">{{ $product->description }}</textarea>
                 @error('description')
-                    <span class="text-danger">{{ $message }}</span>
+                    <span class="error-message">{{ $message }}</span>
                 @enderror
             </div>
-            <div class="d-flex justify-content-center align-items-center mt-3">
-                <a href="{{ route('products.index') }}" class="btn btn-secondary btn-lg mr-3"
-                    style="background-color: lightgray;">戻る</a>
-                <button type="submit" class="btn btn-primary btn-lg" style="background-color: orange;">変更を保存</button>
+
+            <div class="form-actions">
+                <a href="{{ route('products.index') }}" class="btn-back">戻る</a>
+                <button type="submit" class="btn-submit">変更を保存</button>
             </div>
         </form>
     </div>
