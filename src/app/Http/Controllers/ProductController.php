@@ -41,7 +41,7 @@ class ProductController extends Controller
         }
         $product->save();
         $product->seasons()->sync($validatedData['seasons']);
-        return redirect()->route('products.index')->with('success', '商品が作成されました。');
+        return redirect()->route('products.index');
     }
 
     public function show($product_id)
@@ -82,7 +82,7 @@ class ProductController extends Controller
     {
         $product = Product::find($product_id);
         $product->delete();
-        return redirect()->route('products.index')->with('success', 'Product deleted successfully!');
+        return redirect()->route('products.index');
     }
 
     public function search(Request $request)

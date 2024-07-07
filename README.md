@@ -80,4 +80,4 @@ php artisan db:seed
 ```
 
 ##　無事localhost/productsでアクセスできると思います。
-php artisan コマンドでエラーが出る際にはdockerを再起動することで修正できるかと思われます。必要に応じて、php artisan storage:linkなどもご使用ください。
+php artisan コマンドでエラーが出る際にはdockerを再起動することで修正できるかと思われます。商品をご自身で登録される際には、php artisan storage:linkなどもご使用ください。
