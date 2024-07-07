@@ -28,7 +28,7 @@
 | id         | PK      |
 | name       |         |
 | price      |         |
-| image_path |         |
+| image      |         |
 | description|         |
 | created_at |         |
 | updated_at |         |
@@ -49,7 +49,6 @@
 | updated_at |         |
 
 ## ER図
-[ER図のイメージをここに挿入]
 ![もぎたて](https://github.com/yasuhirotokyotakahashi/mogitate/assets/128282431/670a0773-8916-46ce-98e7-2bc4fbd1eff1)
 
 
@@ -80,6 +79,5 @@ php artisan db:seed
 
 ```
 
-##　無事localhostでアクセスできると思います。
-php artisan コマンドでエラーが出る際にはdockerを再起動することで修正できるかと思われます。
-必要に応じて、php artisan storage:linkなどもご使用ください。
+##　無事localhost/productsでアクセスできると思います。
+php artisan コマンドでエラーが出る際にはdockerを再起動することで修正できるかと思われます。必要に応じて、php artisan storage:linkなどもご使用ください。

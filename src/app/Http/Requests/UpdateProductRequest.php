@@ -29,7 +29,7 @@ class UpdateProductRequest extends FormRequest
             'description' => 'required|max:120',
             'seasons' => 'required|array',
             'seasons.*' => 'exists:seasons,id',
-            'image' => 'image|mimes:jpeg,png|max:2048',
+            'image' => 'image|mimes:jpeg,png',
         ];
     }
 
@@ -37,19 +37,14 @@ class UpdateProductRequest extends FormRequest
     {
         return [
             'name.required' => '商品名を入力してください',
-
             'price.required' => '値段を入力してください',
             'price.numeric' => '数値で入力してください',
             'price.between' => '0~10000円以内で入力してください',
-
             'description.required' => '商品説明を入力してください',
             'description.max' => '120文字以内で入力してください',
-
             'seasons.required' => '季節を選択してください',
-
             'image.image' => 'アップロードされたファイルは画像でなければなりません。',
             'image.mimes' => '「.png」または「.jpeg」形式でアップロードしてください',
-            'image.max' => '画像のサイズは2MB以内でなければなりません。',
         ];
     }
 }

@@ -1,8 +1,10 @@
 @extends('layouts.app')
+@section('css')
+    <link rel="stylesheet" href="{{ asset('css/products/create.css') }}">
+@endsection
 @section('content')
     <div class="container">
         <h1>商品登録</h1>
-
         <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
@@ -58,42 +60,4 @@
             </div>
         </form>
     </div>
-    <style>
-        .required-label {
-            display: inline-block;
-            background-color: red;
-            color: white;
-            padding: 2px 8px;
-            margin-left: 10px;
-            border-radius: 3px;
-            font-size: 0.9em;
-        }
-
-        .optional-label {
-            color: red;
-            margin-left: 10px;
-            font-size: 0.9em;
-        }
-
-        .form-check-inline {
-            display: inline-block;
-            margin-right: 15px;
-        }
-
-        .d-flex {
-            display: flex;
-        }
-
-        .justify-content-center {
-            justify-content: center;
-        }
-
-        .align-items-center {
-            align-items: center;
-        }
-
-        .mt-3 {
-            margin-top: 1rem;
-        }
-    </style>
 @endsection
